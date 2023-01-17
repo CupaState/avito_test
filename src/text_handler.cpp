@@ -55,10 +55,9 @@ std::unordered_map<std::string, unsigned int> TextHandler::fillMap()
 }
 
 // Sorts vector of pairs in DESCENDING
-std::map<unsigned int, std::string> TextHandler::sortVectorDesc(std::unordered_map<std::string, unsigned int>& m)
+std::map<unsigned int, std::string> TextHandler::sortVectorDesc(std::unordered_map<std::string, unsigned int>&& m)
 {
   std::map<unsigned int, std::string> result;
-
   auto start = std::chrono::steady_clock::now();
 
   for (auto& el : m)
@@ -75,6 +74,6 @@ std::map<unsigned int, std::string> TextHandler::getWordsFrequencies()
 {
   this->toLower();
   this->filterText();
-  std::unordered_map<std::string, unsigned int> m = this->fillMap();
-  return this->sortVectorDesc(m);
+  //std::unordered_map<std::string, unsigned int> m = ;
+  return this->sortVectorDesc(std::move(this->fillMap()));
 }
