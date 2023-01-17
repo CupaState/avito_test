@@ -2,8 +2,10 @@
 #include "streamer.h"
 #include "text_handler.h"
 
+// std
 #include <iostream>
 #include <exception>
+#include <chrono>
 
 void usage();
 
@@ -14,6 +16,10 @@ int main(int argc, char* argv[])
     usage();
     return -1;
   }
+
+  auto start = std::chrono::steady_clock::now();
+
+  setlocale(LC_ALL, NULL);
 
   // object to handle files
   FileStreamer streamer(argv[1], argv[2]);
@@ -38,6 +44,9 @@ int main(int argc, char* argv[])
   {
     std::cerr << e.what() << std::endl;
   }
+
+  auto end = std::chrono::steady_clock::now();
+  std::cout << std::chrono::duration_cast<std::chrono::seconds>(end - start).count() << "\n";
 
   return 0;
 }

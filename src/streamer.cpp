@@ -3,21 +3,38 @@
 
 // std
 #include <fstream>
+#include <map>
+#include <iostream>
+#include <string>
 
 // Reads input file
 std::string FileStreamer::readInputFile()
 {
-  std::string exception = std::string("Couldn`t open input file: ") + this->mInputPath;
+  const std::string openException = std::string("Couldn`t open input file: ") + this->mInputPath;
+  const std::string closeException = std::string("Couldn`t close input file: ") + this->mInputPath;
+
   std::string result;
+  std::map<char*, uint> res;
   
-  std::ifstream input(this->mInputPath);
-  if (!input.is_open())
-    throw exception;
+  FILE* in = fopen(this->mInputPath, "r");
+  if (!in)
+    throw openException;
 
-  result.assign((std::istreambuf_iterator<char>(input.rdbuf())), std::istreambuf_iterator<char>());
+  while(true)
+  {
+    char word[30];
+    if (fscanf(in, " %30s", word) != 1)
+      break;
+    //puts(word);
+    //printf("%s\n", word);
+    res.insert(std::make_pair<char*, uint>(word, res[word]++));
+  }
 
+  //for (auto& el : res)
+  std::cout << res.size() << "\n";
 
-  input.close();
+  if (fclose(in) == -1)
+    throw closeException;
   return result;
 }
 
