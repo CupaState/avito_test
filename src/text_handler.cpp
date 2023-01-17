@@ -5,6 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include <chrono>
+#include <thread>
 
 // Removes symbols excepting a-z and spaces
 void TextHandler::filterText()
@@ -43,20 +44,26 @@ std::unordered_map<std::string, unsigned int> TextHandler::fillMap()
 {
   auto start = std::chrono::steady_clock::now();
 
+  const int size = 10000000;
   std::unordered_map<std::string, unsigned int> result;
+  result.reserve(std::move(size));
+
   std::istringstream ss(this->mText);
   std::string word;
 
   while(std::getline(ss, word, ' '))
-    if (!word.empty())
-      result[word]++;
+  {
+    if (word.empty())
+      continue;
+    result[word]++;
+  }
 
   auto end = std::chrono::steady_clock::now();
   printf("fillMap: %ld\n", std::chrono::duration_cast<std::chrono::seconds>(end - start).count());
   return result;
 }
 
-// Sorts vector of pairs in DESCENDING
+// Sorts vector of pairs in DESCENDING ORDER
 std::map<unsigned int, std::string> TextHandler::sortVectorDesc(std::unordered_map<std::string, unsigned int>&& m)
 {
   std::map<unsigned int, std::string> result;
@@ -74,7 +81,20 @@ std::map<unsigned int, std::string> TextHandler::sortVectorDesc(std::unordered_m
 // Returns sorted frequencies of words, occurring in the text
 std::map<unsigned int, std::string> TextHandler::getWordsFrequencies()
 {
-  this->toLower();
-  this->filterText();
-  return this->sortVectorDesc(std::move(this->fillMap()));
+  std::thread th1([&](){
+    this->toLower();
+  });
+
+  std::thread th2([&](){
+    this->filterText();
+  });
+
+  std::unordered_map<std::string, unsigned int> m;
+  std::thread th3([&](){
+    m = this->fillMap();
+  });
+
+  th1.join();
+  th2.join();
+  return this->sortVectorDesc(std::move(m));
 }
