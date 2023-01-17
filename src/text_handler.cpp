@@ -13,10 +13,12 @@ void TextHandler::filterText()
   std::string result = "";
 
   for (unsigned int i = 0; i < this->mText.size(); ++i)
-    if (!(this->mText[i] >= 'a' && this->mText[i] <= 'z') && this->mText.at(i) != ' ')
+  {
+    const char ch = this->mText[i];
+    if (!(ch >= 'a' && ch <= 'z') && ch != ' ')
       continue;
-    else
-      result += this->mText.at(i);
+    result += ch;
+  }
 
   this->mText.assign(result);
 
@@ -30,7 +32,7 @@ void TextHandler::toLower()
   auto start = std::chrono::steady_clock::now();
 
   for (unsigned int i = 0; i < this->mText.size(); ++i)
-    this->mText[i] = ::tolower(this->mText[i]);
+    this->mText[i] |= 0x20;
 
   auto end = std::chrono::steady_clock::now();
   printf("toLower: %ld\n", std::chrono::duration_cast<std::chrono::seconds>(end - start).count());
@@ -42,7 +44,7 @@ std::unordered_map<std::string, unsigned int> TextHandler::fillMap()
   auto start = std::chrono::steady_clock::now();
 
   std::unordered_map<std::string, unsigned int> result;
-  std::stringstream ss(this->mText);
+  std::istringstream ss(this->mText);
   std::string word;
 
   while(std::getline(ss, word, ' '))
@@ -74,6 +76,5 @@ std::map<unsigned int, std::string> TextHandler::getWordsFrequencies()
 {
   this->toLower();
   this->filterText();
-  //std::unordered_map<std::string, unsigned int> m = ;
   return this->sortVectorDesc(std::move(this->fillMap()));
 }
