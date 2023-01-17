@@ -81,20 +81,7 @@ std::map<unsigned int, std::string> TextHandler::sortVectorDesc(std::unordered_m
 // Returns sorted frequencies of words, occurring in the text
 std::map<unsigned int, std::string> TextHandler::getWordsFrequencies()
 {
-  std::thread th1([&](){
-    this->toLower();
-  });
-
-  std::thread th2([&](){
-    this->filterText();
-  });
-
-  std::unordered_map<std::string, unsigned int> m;
-  std::thread th3([&](){
-    m = this->fillMap();
-  });
-
-  th1.join();
-  th2.join();
-  return this->sortVectorDesc(std::move(m));
+  this->toLower();
+  this->filterText();
+  return this->sortVectorDesc(std::move(this->fillMap()));
 }
