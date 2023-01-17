@@ -28,11 +28,11 @@ std::string FileStreamer::readInputFile()
     throw openException;
 
   if (fstat(fd, & s) < 0)
-    throw "fstat";
+    throw "fstat()";
 
   mmapres = mmap(0, s.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
   if (mmapres == MAP_FAILED)
-    throw "mmap";
+    throw "mmap()";
 
   if (close(fd) < 0)
     throw closeException;

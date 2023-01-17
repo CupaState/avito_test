@@ -37,8 +37,7 @@ std::map<std::string, unsigned int> TextHandler::fillMap()
   std::string word;
 
   while(std::getline(ss, word, ' '))
-    if (!word.empty())
-      result[word]++;
+    result[word]++;
 
   auto end = std::chrono::steady_clock::now();
   printf("fillMap: %ld\n", std::chrono::duration_cast<std::chrono::seconds>(end - start).count());
