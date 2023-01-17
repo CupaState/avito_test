@@ -3,7 +3,6 @@
 #include "text_handler.h"
 
 // std
-#include <iostream>
 #include <exception>
 #include <chrono>
 
@@ -19,8 +18,6 @@ int main(int argc, char* argv[])
 
   auto start = std::chrono::steady_clock::now();
 
-  setlocale(LC_ALL, NULL);
-
   // object to handle files
   FileStreamer streamer(argv[1], argv[2]);
   std::string text;
@@ -31,7 +28,7 @@ int main(int argc, char* argv[])
   }
   catch (const std::exception& e)
   {
-    std::cerr << e.what() << std::endl;
+    printf("%s\n", e.what());
   }
   
   TextHandler tHandler(text);
@@ -42,11 +39,11 @@ int main(int argc, char* argv[])
   }
   catch (const std::exception& e)
   {
-    std::cerr << e.what() << std::endl;
+    printf("%s\n", e.what());
   }
 
   auto end = std::chrono::steady_clock::now();
-  std::cout << std::chrono::duration_cast<std::chrono::seconds>(end - start).count() << "\n";
+  printf("PERFORMANCE: %ld seconds\n", std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()); 
 
   return 0;
 }
@@ -54,5 +51,5 @@ int main(int argc, char* argv[])
 // Usage message
 void usage()
 {
-  std::cout << "Usage: freq <path_to_input_file> <path_to_output_file>\n";
+  printf("Usage: freq <path_to_input_file> <path_to_output_file>\n");
 }

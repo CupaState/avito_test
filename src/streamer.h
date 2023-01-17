@@ -1,14 +1,11 @@
 /*
-  Class to work with input output streams
+  Class to work with input and output streams
 */
 
 #pragma once
 
 #include <string>
-#include <vector>
 #include <map>
-
-typedef std::pair<std::string, unsigned int> strint_pair;
 
 class FileStreamer
 {

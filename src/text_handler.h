@@ -5,7 +5,6 @@
 #pragma once
 
 // std
-#include <vector>
 #include <unordered_map>
 #include <map>
 #include <string>
@@ -23,7 +22,7 @@ private:
   void filterText();
   void toLower();
   std::unordered_map<std::string, unsigned int> fillMap();
-  std::map<unsigned int, std::string> sortVectorDesc(std::unordered_map<std::string, unsigned int>&&);
+  std::map<unsigned int, std::string> sortDesc(std::unordered_map<std::string, unsigned int>&&);
 
   // props
   std::string mText;
