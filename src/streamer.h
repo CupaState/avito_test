@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 typedef std::pair<std::string, unsigned int> strint_pair;
 
@@ -16,7 +17,7 @@ public:
   ~FileStreamer() {}
 
   std::string readInputFile();
-  void writeOutputFile(std::vector<strint_pair>&&);
+  void writeOutputFile(std::map<unsigned int, std::string>&&);
 
 private:
   const char* mInputPath;

@@ -55,19 +55,14 @@ std::unordered_map<std::string, unsigned int> TextHandler::fillMap()
 }
 
 // Sorts vector of pairs in DESCENDING
-std::vector<std::pair<std::string, uint>> TextHandler::sortVectorDesc(std::unordered_map<std::string, uint>& m)
+std::map<unsigned int, std::string> TextHandler::sortVectorDesc(std::unordered_map<std::string, unsigned int>& m)
 {
-  std::vector<std::pair<std::string, uint>> result;
+  std::map<unsigned int, std::string> result;
 
   auto start = std::chrono::steady_clock::now();
 
-  for (auto it = m.begin(); it != m.end(); ++it)
-    result.push_back(*it);
-
-  std::sort(result.begin(), result.end(), [](const std::pair<std::string, uint> a, const std::pair<std::string, uint> b)
-  {
-    return a.second > b.second;
-  });
+  for (auto& el : m)
+    result.emplace(el.second, el.first);
 
   auto end = std::chrono::steady_clock::now();
   printf("sortVectorDesc: %ld\n", std::chrono::duration_cast<std::chrono::seconds>(end - start).count());
@@ -76,7 +71,7 @@ std::vector<std::pair<std::string, uint>> TextHandler::sortVectorDesc(std::unord
 }
 
 // Returns sorted frequencies of words, occurring in the text
-std::vector<std::pair<std::string, uint>> TextHandler::getWordsFrequencies()
+std::map<unsigned int, std::string> TextHandler::getWordsFrequencies()
 {
   this->toLower();
   this->filterText();
