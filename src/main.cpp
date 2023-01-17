@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
   }
 
   auto end = std::chrono::steady_clock::now();
-  printf("PERFORMANCE: %ld seconds\n", std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()); 
+  printf("PERFORMANCE: %ld seconds\n", std::chrono::duration_cast<std::chrono::seconds>(end - start).count()); 
 
   return 0;
 }
