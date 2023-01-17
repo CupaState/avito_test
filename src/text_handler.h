@@ -6,7 +6,7 @@
 
 // std
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <string>
 
 class TextHandler
@@ -21,8 +21,8 @@ private:
   // methods
   void filterText();
   void toLower();
-  std::map<std::string, uint> fillMap();
-  std::vector<std::pair<std::string, uint>> sortVectorDesc(std::map<std::string, uint>&);
+  std::unordered_map<std::string, uint> fillMap();
+  std::vector<std::pair<std::string, uint>> sortVectorDesc(std::unordered_map<std::string, uint>&);
 
   // props
   std::string mText;
