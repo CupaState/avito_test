@@ -4,6 +4,7 @@
 // std
 #include <sstream>
 #include <algorithm>
+#include <chrono>
 
 // Removes symbols excepting a-z and spaces
 void TextHandler::filterText()
@@ -29,6 +30,8 @@ void TextHandler::toLower()
 // Fills map with word and it`s quantity in text
 std::map<std::string, unsigned int> TextHandler::fillMap()
 {
+  auto start = std::chrono::steady_clock::now();
+
   std::map<std::string, unsigned int> result;
   std::stringstream ss(this->mText);
   std::string word;
@@ -36,6 +39,9 @@ std::map<std::string, unsigned int> TextHandler::fillMap()
   while(std::getline(ss, word, ' '))
     if (!word.empty())
       result[word]++;
+
+  auto end = std::chrono::steady_clock::now();
+  printf("fillMap: %ld\n", std::chrono::duration_cast<std::chrono::seconds>(end - start).count());
   return result;
 }
 
